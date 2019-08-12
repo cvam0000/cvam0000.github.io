@@ -73,7 +73,7 @@ RTOS may yield less throughput than GPOS .A quality RTOS will still deliver dece
 In the computing world , Latency means “ the time elapses b/w a stimulus and the response to it” .Task switching means  that time gap b/w a triggering of an event and the time at which the task which takes care of the event is allowed to run on the CPU
 
 <img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/switch_latency.png"><br>
-Let's take an example in the fig T1 is task which detects the crash and T2 handles the airbags deployment and the time b/w Switching from t1 to t2 ia called Task switching latency 
+Let's take an example in the fig Task1 is task which detects the crash and Task2 handles the airbags deployment and the time b/w Switching from t1 to t2 ia called Task switching latency 
 In RTOS task switching latency  is finely tuned and  time bounded .RTOS always  helps you to design such types of systems where this gap must be deterministics or time bounded
 But this is not the case in  GPOS as this gap increases as time elapses or system load increases . 
 
