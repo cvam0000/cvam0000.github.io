@@ -83,7 +83,7 @@ But this is not the case in  GPOS as this gap increases as time elapses or syste
 
 <b>3 :In terms of interrupt latency </b><br>
 <img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/interrupt_latency.png"><br>
-Let an interrupt occurs  at  time t1 when  Task T1 is already running the ISR takes the CPU   which handles the interrupt because interrupt has higher priority , generally all interrupts have higher priority than any other task , the time b/w switching from Task T1 to an ISR is called interrupt latency and after execution of ISR the the high priority task which is ready to execute will take over the CPU or if T1 resumes .
+Let an interrupt occurs  at  time t1 when  Task Task1 is already running the ISR takes the CPU   which handles the interrupt because interrupt has higher priority , generally all interrupts have higher priority than any other task , the time b/w switching from  Task1 to an ISR is called interrupt latency and after execution of ISR the the high priority task which is ready to execute will take over the CPU or if Task1 resumes .
 Interrupt latency should be small as possible in RTOS and almost constant but in the case of GPOS it increases as the system load increases .
 
 <br><br>
