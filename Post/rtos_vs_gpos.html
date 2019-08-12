@@ -39,10 +39,70 @@
     <h1><span class="badge badge-secondary"># RTOS VS GPOS  </span></h1>
     <span class="badge badge-secondary">11th Aug,2019</span>
   <br><br>
-    When it matters it runs on RTOS . RTOS is acronym for Real Time Operating System. There are such conditions where the correctness or requirement of the output not only depends upon the logic of the application    time matters alot for example deployment of air bags in the vehicle , missile systems . small time delay can lead to massive destructions . So we need such type of OS to deal wtih these type of  real time Application 
 
-    
+  <p>
+
+
+
+ <b><h5> When it matters, it runs on RTOS .</h5></b>
+<br>
+
+  RTOS is an acronym for <b>Real Time Operating System</b>. There are such conditions where the correctness or requirement of the output not only depends upon the logic of the application but also time plays an important role for example deployment of airbags while a crash is detected in   the vehicles , missile systems where a small error or  small time delay may lead to massive destruction . So we need such type of OS to deal with these type of real time Applications .<br>
+                                           
+There are some myths about <b>Real time computing </b>i.e 
+RTC is fast computing with higher performance But the truth is  RTC is predictable computing , timeliness is more important than performance.We can also say an RTOS is supposed to give predictable response.
+RTOS deals with guarantees , not with raw speed .having more processor , more RAM ,faster BUS interfaces doesn't make a system real time.<br>
+
+GPOS <b>(General Purpose Operating System)</b>are the OS which we  are using for  our general work in our daily life for example  watching a video ,surfing internet etc etc . Some examples of GPOS are Linux , Mac OS , Windows , Android .
+<br>
+<img src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/rtos.png">
+<br>
+<h5><b>HOW RTOS IS DIFFERENT FROM GPOS.</b></h5><br><br>
+<b>1:In terms of scheduling of tasks . </b></br>
+GPOS handles Scheduling of tasks in such a way that it maintains high throughput( Total no of executions per unit time ) , that means sometimes high priority task will get delayed in order to serve 5 or more low priority tasks.That is how GPOS maintains higher throughput . On the other side of the world RTOS execute threads  in the order of their priority  if a high priority task or thread  becomes ready to run it will take over the cpu from any low-priority task that may be executing .
+<br>
+
+Does it mean that RTOS are very poor in terms of throughput ?
+RTOS may yield less throughput than GPOS .A quality RTOS will still deliver decent overall throughput but can sacrifice it for being deterministic or to achieve predictability. 
+<br>
+
+
+
+<br>
+<b>2:In terms of Latency of switching tasks.</b>
+In the computing world , Latency mean “ the time elapses b/w a stimulus and the response to it” .Task switching means  that time gap b/w a triggering of an event and the time at which the task which takes care of the event is allowed to run on the CPU
+
+<img src=”https://github.com/cvam0000/RTOS/blob/master/extra/switch_latency.png”><br>
+Let's take an example in the fig T1 is task which detects the crash and T2 handles the airbags deployment and the time b/w Switching from t1 to t2 ia called Task switching latency 
+In RTOS task switching latency  is finely tuned and  time bounded .RTOS always  helps you to design such types of systems where this gap must be deterministics or time bounded
+But this is not the case in  GPOS as this gap increases as time elapses or system load increases . 
+
+
+<br><br>
+
+
+<b>3:In terms of interrupt latency </b>
+<img src=”https://github.com/cvam0000/RTOS/blob/master/extra/interrupt_latency.png”><br>
+Let an interrupt occurs  at  time t1 when  Task T1 is already running the ISR takes the CPU   which handles the interrupt because interrupt has higher priority , generally all interrupts have higher priority than any other task , the time b/w switching from Task T1 to an ISR is called interrupt latency and after execution of ISR the the high priority task which is ready to execute will take over the CPU or if T1 resumes .
+Interrupt latency should be small as possible in RTOS and almost constant but in the case of GPOS it increases as the system load increases .
+
+<br><br>
+<b>Features that a RTOS has but a GPOS doest</b><br>
+-Priority based preemptive scheduling <br>
+-No or very short critical section<br>
+-Priority inversion avoidance<br>
+-Bounded Interrupt latency<br>
+-Bounded scheduling latency<br>   
+
+
+For the RTOS achieving predictability or time deterministic nature is more important than throughput , but for the GPOS achieving higher throughput for user convenience is more important .
+
+
+
+  </p>
 </div>
+
+
 <div class="col-12 col-md-3 ">
     <div class="card w-100  about">
       <div class="card-body">
