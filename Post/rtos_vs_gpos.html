@@ -73,7 +73,7 @@ RTOS may yield less throughput than GPOS .A quality RTOS will still deliver dece
 In the computing world , Latency means “ the time elapses b/w a stimulus and the response to it” .Task switching means  that time gap b/w a triggering of an event and the time at which the task which takes care of the event is allowed to run on the CPU
 
 <img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/switch_latency.png"><br>
-Let's take an example in the fig Task1 is task which detects the crash and Task2 handles the airbags deployment and the time b/w Switching from t1 to t2 ia called Task switching latency 
+Let's take an example in the fig Task1 which detects the crash and Task2 handles the airbags deployment and the time b/w Switching from t1 to t2 ia called Task switching latency 
 In RTOS task switching latency  is finely tuned and  time bounded .RTOS always  helps you to design such types of systems where this gap must be deterministics or time bounded
 But this is not the case in  GPOS as this gap increases as time elapses or system load increases . 
 
@@ -83,7 +83,7 @@ But this is not the case in  GPOS as this gap increases as time elapses or syste
 
 <b>3 :In terms of interrupt latency </b><br>
 <img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/interrupt_latency.png"><br>
-Let an interrupt occurs  at  time t1 when  Task Task1 is already running the ISR takes the CPU   which handles the interrupt because interrupt has higher priority , generally all interrupts have higher priority than any other task , the time b/w switching from  Task1 to an ISR is called interrupt latency and after execution of ISR the the high priority task which is ready to execute will take over the CPU or if Task1 resumes .
+Let an interrupt occurs  at  time t1 when   Task1 is already running the ISR takes the CPU   which handles the interrupt because interrupt has higher priority , generally all interrupts have higher priority than any other task , the time b/w switching from  Task1 to an ISR is called interrupt latency and after execution of ISR the the high priority task which is ready to execute will take over the CPU or if Task1 resumes .
 Interrupt latency should be small as possible in RTOS and almost constant but in the case of GPOS it increases as the system load increases .
 
 <br><br>
