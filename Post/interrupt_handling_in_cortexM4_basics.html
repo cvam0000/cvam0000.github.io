@@ -48,7 +48,7 @@
 
   <b>What is an Interrupt?</b><br><br>
 
-A  Signal Emitted by Hardware or Software for the processor to serve a HIGH PRIORITY task by taking the CPU from a low priority one. Jumping from one task to another to serve the defined requirements under some special conditions such as time quant or priority etc etc called Preemption. And there are some user-defined and vendor-specific functions which servers during the occurrence of  a particular interrupt.
+A  Signal Emitted by Hardware or Software for the processor to serve a HIGH PRIORITY task by taking the CPU from a low priority one. Jumping from one task to another to serve the defined requirements under some special conditions such as time quant or priority etc etc called Preemption. And there are some user-defined and vendor-specific functions which servers during the occurrence of  a particular interrupt called an Interrupt handler or ISR .
  .<br><br>
                                            
 <b>Why do we need Interrupts ?</b><br><br>
@@ -59,32 +59,32 @@ A  Signal Emitted by Hardware or Software for the processor to serve a HIGH PRIO
 There are Two ways to monitor these kind of situations <br><br>
 1.Polling <br>
 2.Interrupts<br><br>
-Polling is like to check the whatsapp every minute , whether you getting a reply  from your crush or not XD on the other hand check the whatsapp only when there ia any notification is Interrupt method. <br>   
+Polling is like to check the whatsapp every minute , whether you getting a reply  from your crush or not XD on the other hand check the whatsapp only when there is any notification is Interrupt method. <br>   
 
 Polling is busy and easy method but inefficient . making your processor busy is not good practice .
 
 
 
-<div class="panel panel-default">
-    <div class="panel-heading">While (1)
-{
-    m=read_from_sensor_for_crash ();
-    If (m)
-        Exit;
-}
+<div class="jumbotron">
+    <div class="panel-heading">While (1)<br>
+{<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;m=read_from_sensor_for_crash ();<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;If (m)<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Exit;<br>
+}<br>
 Call T1;
 
 </div>
    
   </div>
-
+When T1 detects any crash it generates an IRQ( Interrupt request ) and when the processor receives the IRQ , processor call interrupt handler (ISR Interrupt Service Routine ) which consist of some special definition to handle the Interrupt here T2 has the ISR .
 <br><br>
-<div class="panel panel-default">
+<div class="jumbotron">
     <div class="panel-heading">interrupt_handler()
-{
-    t2;
-    exit;
-}
+{<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;t2;<br>
+    &nbsp;&nbsp;&nbsp;&nbsp;exit;<br>
+}<br>
 </div>
    
   </div>
@@ -92,46 +92,28 @@ Call T1;
 
 
 <br>
-<img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/rtos.png">
+<img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/memorymapM4.png">
 <br>
-<h5><b>HOW RTOS IS DIFFERENT FROM GPOS.</b></h5><br><br>
-<b>1 :In terms of scheduling of tasks . </b></br>
-GPOS handles Scheduling of tasks in such a way that it maintains high throughput( Total no of executions per unit time ) , that means sometimes high priority task will get delayed in order to serve 5 or more low priority tasks.That is how GPOS maintains higher throughput . On the other side of the world RTOS execute threads  in the order of their priority  if a high priority task or thread  becomes ready to run it will take over the cpu from any low-priority task that may be executing .
-<br>
-
-<b>Does it mean that RTOS are very poor in terms of throughput ?</b></br>
-RTOS may yield less throughput than GPOS .A quality RTOS will still deliver decent overall throughput but can sacrifice it for being deterministic or to achieve predictability. 
 <br>
 
 
 
+As shown in the figure when the pin PA3 gets a signal from the sensor it generates an IRQ to the NVIC (Nested vector Interrupt controller ) , NVIC force the CPU to jump to the  Special functions Interrupt handlers or ISR  . Those function handles the perticular interrupt also each IRQ has the ISR no. which is defined in the Nested vector interrupt table . The table consist of the ISR no and the pointer to the ISR function .<br><br>
+<img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/m4.png"><br>
+
+For cortex M processor Address of the pointer = 64+4*Interrupt_no. Or ISR_no<br>
+If ISR_no=9<br>
+64+4*9=100=0x64
+The size of the vector table depends upon the vendor as many vendor specific interrupt handler are present over there 
+ <br><br><img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/DeepinScreenshot_select-area_20190825225423.png"><br>   
 <br>
-<b>2 :In terms of Latency of switching tasks.</b><br>
-In the computing world , Latency means “ the time elapses b/w a stimulus and the response to it” .Task switching means  that time gap b/w a triggering of an event and the time at which the task which takes care of the event is allowed to run on the CPU
-
-<img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/switch_latency.png"><br>
-Let's take an example in the fig Task1 which detects the crash and Task2 handles the airbags deployment and the time b/w Switching from t1 to t2 ia called Task switching latency 
-In RTOS task switching latency  is finely tuned and  time bounded .RTOS always  helps you to design such types of systems where this gap must be deterministics or time bounded
-But this is not the case in  GPOS as this gap increases as time elapses or system load increases . 
+<h5><div class="jumbotron"> This is the basic of Interrupts and Interrupts handlers and How the controllers handles all these .stay tuned for Advance of interrupts which consist of How Switching of process takes place when an interrupt occurs.<b>Stacking Unstacking Preemption while serving an ISR </b> in next blog . </div></h5><br>
+<img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/irq.png"><br>
 
 
-<br><br>
+ 
 
 
-<b>3 :In terms of interrupt latency </b><br>
-<img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/interrupt_latency.png"><br>
-Let an interrupt occurs  at  time t1 when   Task1 is already running the ISR takes the CPU   which handles the interrupt because interrupt has higher priority , generally all interrupts have higher priority than any other task , the time b/w switching from  Task1 to an ISR is called interrupt latency and after execution of ISR the the high priority task which is ready to execute will take over the CPU or if Task1 resumes .
-Interrupt latency should be small as possible in RTOS and almost constant but in the case of GPOS it increases as the system load increases .
-
-<br><br>
-<b>Features that a RTOS has but a GPOS doest</b><br><br>
--Priority based preemptive scheduling <br>
--No or very short critical section<br>
--Priority inversion avoidance<br>
--Bounded Interrupt latency<br>
--Bounded scheduling latency<br>   
-<br>
-<h3><div class="jumbotron">For the RTOS achieving predictability or time deterministic nature is more important than throughput , but for the GPOS achieving higher throughput for user convenience is more important . </div></h3>
 
 
 
