@@ -18,14 +18,14 @@
 
 
 
-  <link rel="stylesheet" href='../css/cvam.css'>
+  <link rel="stylesheet" href='../../css/cvam.css'>
 </head>
 <body>
 
 
 
 <br>
-    <center><img width="175px" src= "../images/logo.png" > </center><br><br>
+    <center><img width="175px" src= "../../images/logo.png" > </center><br><br>
 
 <div class="container-fluid">
   <div class="row">
@@ -36,69 +36,62 @@
 
 
 
-    <h1><span class="badge badge-secondary"># RTOS VS GPOS  </span></h1>
-    <span class="badge badge-secondary">11th Aug,2019</span>
+    <h1><span class="badge badge-secondary"># Linux Kernel Module </span></h1>
+    <span class="badge badge-secondary">16th dec,2019</span>
   <br><br>
 
   <p>
 
 
 
- <b><h5> When it matters, it runs on RTOS .</h5></b>
 <br>
 
-  RTOS is an acronym for <b>Real Time Operating System</b>. There are such conditions where the correctness or requirement of the output not only depends upon the logic of the application but also time plays an important role for example deployment of airbags while a crash is detected in   the vehicles , missile systems where a small error or  small time delay may lead to massive destruction . So we need such type of OS to deal with these type of real time Applications .<br>
-
-There are some myths about <b>Real time computing </b>i.e
-RTC is fast computing with higher performance But the truth is  RTC is predictable computing , timeliness is more important than performance.We can also say an RTOS is supposed to give predictable response.
-RTOS deals with guarantees , not with raw speed .having more processor , more RAM ,faster BUS interfaces doesn't make a system real time.<br>
-
-GPOS <b>(General Purpose Operating System)</b>are the OS which we  are using for  our general work in our daily life for example  watching a video ,surfing internet etc etc . Some examples of GPOS are Linux , Mac OS , Windows , Android .
+  To solve the problem of lack of modularity and extensiblity, the modern monolithic kernel has kernel module.<br>
+  LKM  (Loadable Kernel Module) is an object file that contains code , that can exend the kernel functionality at the run time. Most of the Device Driver used as the LKM and it can be unloaded at the time when not needed.
+ <br><br><b><h5> Example of Loadable Kernel Module</h5></b>
 <br>
-<img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/rtos.png">
-<br>
-<h5><b>HOW RTOS IS DIFFERENT FROM GPOS.</b></h5><br><br>
-<b>1 :In terms of scheduling of tasks . </b></br>
-GPOS handles Scheduling of tasks in such a way that it maintains high throughput( Total no of executions per unit time ) , that means sometimes high priority task will get delayed in order to serve 5 or more low priority tasks.That is how GPOS maintains higher throughput . On the other side of the world RTOS execute threads  in the order of their priority  if a high priority task or thread  becomes ready to run it will take over the cpu from any low-priority task that may be executing .
-<br>
+<script src="https://gist.github.com/cvam0000/b47dc5ff5b78ea3141e8758138bd83b8.js"></script>
 
-<b>Does it mean that RTOS are very poor in terms of throughput ?</b></br>
-RTOS may yield less throughput than GPOS .A quality RTOS will still deliver decent overall throughput but can sacrifice it for being deterministic or to achieve predictability.
-<br>
-
-
-
-<br>
-<b>2 :In terms of Latency of switching tasks.</b><br>
-In the computing world , Latency means “ the time elapses b/w a stimulus and the response to it” .Task switching means  that time gap b/w a triggering of an event and the time at which the task which takes care of the event is allowed to run on the CPU
-
-<img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/switch_latency.png"><br>
-Let's take an example in the fig Task1 which detects the crash and Task2 handles the airbags deployment and the time b/w Switching from t1 to t2 ia called Task switching latency
-In RTOS task switching latency  is finely tuned and  time bounded .RTOS always  helps you to design such types of systems where this gap must be deterministics or time bounded
-But this is not the case in  GPOS as this gap increases as time elapses or system load increases .
-
-
+<br><br><h5><b> Compiling kernel modules</b></h5><br>
+Compiling LKM is different from the any user program . The module must compile with the same option as the kernel in which we load the module also we are using different headers so there is a standerd method [KBUILD].
+In this method two files are required Makefile , Kbuild file .
 <br><br>
-
-
-<b>3 :In terms of interrupt latency </b><br>
-<img class="img-fluid" src="https://raw.githubusercontent.com/cvam0000/RTOS/master/extra/interrupt_latency.png"><br>
-Let an interrupt occurs  at  time t1 when   Task1 is already running the ISR takes the CPU   which handles the interrupt because interrupt has higher priority , generally all interrupts have higher priority than any other task , the time b/w switching from  Task1 to an ISR is called interrupt latency and after execution of ISR the the high priority task which is ready to execute will take over the CPU or if Task1 resumes .
-Interrupt latency should be small as possible in RTOS and almost constant but in the case of GPOS it increases as the system load increases .
-
-<br><br>
-<b>Features that a RTOS has but a GPOS doest</b><br><br>
--Priority based preemptive scheduling <br>
--No or very short critical section<br>
--Priority inversion avoidance<br>
--Bounded Interrupt latency<br>
--Bounded scheduling latency<br>
+Example of Makefile
 <br>
-<h3><div class="jumbotron">For the RTOS achieving predictability or time deterministic nature is more important than throughput , but for the GPOS achieving higher throughput for user convenience is more important . </div></h3>
+<script src="https://gist.github.com/cvam0000/78eeebd3dadde593cf9439d6783e7f52.js"></script>
+<br>
+example of kbuild file
+<br>
+<script src="https://gist.github.com/cvam0000/d7578731b9fa6c34c600e670a71682df.js"></script>
+
+It will generate a kernel module file with the extension .ko
+
+<br><br><h5><b> Loading/unloading a kernel module</b></h5><br>
 
 
+<div class="card">
+<div class="card-body">
+<span class="badge badge-secondary"> <h6> >>> insmode ./example_lkm.ko </h6></span> // insmode utility is used to load a module to the kernel with root permission <br><br>
+<span class="badge badge-secondary"> <h6> >>> rmmod ./example_lkm.ko </h6> </span> // rmmod is used to remove the module .<br><br>
+  both recieves path to the *.ko file as a parameter.<br><br>
 
+  ** Information about modules loaded into the kernel can be found using the lsmod command or by inspecting the /proc/modules, /sys/module directories. **
+</div>
+</div>
+<br>
+When loading a module , module_init macro will be executed, similarly when the module is unloaded module_exit macro will execute .<br>
+A complete example of compiling and loading/unloading a kernel module
+<br>
 
+<div class="col-12 p-0">
+	<img src="../../images/lkm.png" width="100%" height="auto">
+</div>
+
+<br>
+
+<div class="col-12 p-0">
+	<img src="../../images/lkm_dmesg.png" width="100%" height="auto">
+</div>
   </p>
 </div>
 
@@ -109,7 +102,7 @@ Interrupt latency should be small as possible in RTOS and almost constant but in
 
           <div class="navbar navbar-default">
               <ul class="il">
-                  <li><a class="active" href="../index.html"><i class="fa fa-home" style="font-size:24px"></i></a></li>
+                  <li><a class="active" href="../../index.html"><i class="fa fa-home" style="font-size:24px"></i></a></li>
                   <li><a href="https://github.com/cvam0000"><i class="fa fa-code" style="font-size:24px"></i></a></li>
                   <li><a href="#contact"><i class="fa fa-address-book" style="font-size:24px"></i></a></li>
                   <li><a href="#about"><i class="fa fa-comments" style="font-size:24px"></i></a></li>
@@ -121,11 +114,9 @@ Interrupt latency should be small as possible in RTOS and almost constant but in
               <br>
 
 
-
-              <center>
-                  <img class="img-responsive smg"src="https://scontent.fdel24-1.fna.fbcdn.net/v/t1.0-9/s960x960/59810504_2301920300022710_5218923973798002688_o.jpg?_nc_cat=110&_nc_oc=AQnSkXtKHP29EELXwrdvOdQPz7AxKMTW1idovyPeRLlUOoUIhmNbCEDGGGGmgieB4Gw&_nc_ht=scontent.fdel24-1.fna&oh=c4401da3ac1391f969266bfefb33760c&oe=5E6ACAF2">
-                 <br><br>
-
+							<center>
+									<img class="img-responsive smg"src="https://scontent.fdel24-1.fna.fbcdn.net/v/t1.0-9/s960x960/59810504_2301920300022710_5218923973798002688_o.jpg?_nc_cat=110&_nc_oc=AQnSkXtKHP29EELXwrdvOdQPz7AxKMTW1idovyPeRLlUOoUIhmNbCEDGGGGmgieB4Gw&_nc_ht=scontent.fdel24-1.fna&oh=c4401da3ac1391f969266bfefb33760c&oe=5E6ACAF2">
+								 <br><br>
 
                     <h3>SHIVAM CHAUDHARY</h3><h3><span class="badge badge-danger">cvam0000</span><br></h3>
 
@@ -184,6 +175,27 @@ Interrupt latency should be small as possible in RTOS and almost constant but in
 
   </div>
   </div>
+
+
+	<div id="disqus_thread"></div>
+	<script>
+
+	var disqus_config = function () {
+	this.page.url = window.location;  // Replace PAGE_URL with your page's canonical URL variable
+	this.page.identifier = 1; // Replace PAGE_IDENTIFIER with your page's unique identifier variable
+
+	*/
+	(function() { // DON'T EDIT BELOW THIS LINE
+	var d = document, s = d.createElement('script');
+	s.src = 'https://ohmyarch-xyz.disqus.com/embed.js';
+	s.setAttribute('data-timestamp', +new Date());
+	(d.head || d.body).appendChild(s);
+	})();
+	</script>
+	<noscript>Please enable JavaScript to view the <a href="https://disqus.com/?ref_noscript">comments powered by Disqus.</a></noscript>
+
+
+
 <div class="container">
 <div class="row">
 
