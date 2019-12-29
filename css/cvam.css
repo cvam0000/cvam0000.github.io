@@ -19,25 +19,25 @@ body {
 
 
 .blogpost{
-  
+
   background: linear-gradient(132deg, #ec5218, #1665c1);
- 
+
   animation: BackgroundGradient 30s ease infinite;
   color:white;
 }
 
 
-       
+
 
 .smg{
-       	
+
        	margin-bottom: auto;
        	border-radius: 50%;
          position: relative;
          width: 200px;
        }
 
-      
+
 
        .bug{
          margin-top:-100px;
@@ -46,11 +46,11 @@ body {
     width:65%;
     margin-top:6.5%;
     padding:2%;
-    margin-left:2%; 
+    margin-left:2%;
     margin-right:2%;
     height:700px;
-  
- 
+
+
 
   }
 
@@ -76,10 +76,28 @@ body {
   font-size: 16px;
   margin: 4px 2px;
   cursor: pointer;
-   background-color: white; 
-  color: black; 
+   background-color: white;
+  color: black;
   border: 2px solid #4CAF50;
 }
+
+.button1{
+  width:100%;
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+   background-color: white;
+  color: black;
+  border: 2px solid #4CAF50;
+}
+
 .tablepost{
   margin-top: 4.3%;
 }
@@ -90,13 +108,13 @@ body {
   margin: 0;
   padding: 3%;
   overflow: hidden;
-  
+
 }
 
 li {
   float: left;
   padding:10px;
-  
+
 }
 
 li a {
@@ -224,13 +242,13 @@ body{
 	padding-top:60px;
 	padding-bottom:60px;
 }
-	
+
 .search-text .input-search{
 	height:45px;
 	width:400px;
 	padding-left:20px;
     color:#333;
-} 
+}
 
 .search-text .btn-search{
 	background-color:#7dabdb;
