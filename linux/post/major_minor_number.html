@@ -64,57 +64,88 @@ The driver will create a special file for every hardware device, to communicate 
 Files )
 	<br><br><b><h5> MAJOR & MINOR Numbers </h5></b>
 
-  The Linux Kernel represent char and block device driver as pair of numbers <major> and <minor>.
+  The Linux Kernel represent char and block device driver as pair of numbers <b>Major</b> and <b>Minor.</b>
   major Number identifies the driver associated with the device and major numbers can be shared by the multiple device
   drivers. <br><br>See cat /proc/devices how major numbers are assigned on running instance.
 
 <br>
-<script src="https://gist.github.com/cvam0000/b47dc5ff5b78ea3141e8758138bd83b8.js"></script>
-
-<br><br><h5><b> Compiling kernel modules</b></h5><br>
-Compiling LKM is different from any user program. The module must compile with the same option as the kernel in which we load the module also we are using different headers so there is a standard method [KBUILD].
-In this method, two files are required Makefile, Kbuild file, also for a LKM you need kernel source or atleast kernel headers matching your kernel version as dependency installed in your system.
-
+<div class="col-12 p-0">
+	<img src="../../images/proc_devices.png" width="100%" height="auto">
+</div>
 <br><br>
-Example of Makefile
-<br>
-<script src="https://gist.github.com/cvam0000/78eeebd3dadde593cf9439d6783e7f52.js"></script>
-<br>
-example of kbuild file
-<br>
-<script src="https://gist.github.com/cvam0000/d7578731b9fa6c34c600e670a71682df.js"></script>
+As many Device Drives share a Major number so we have to assign different numbers to the devices which are using the same major
+number to distinguish individual physical or logical devices. So this is the <b> Minor </b> number.
 
-It will generate a kernel module file with the extension .ko
 
-<br><br><h5><b> Loading/unloading a kernel module</b></h5><br>
+tow ways of allocation
+
+
+<br><br><h5><b> Allocation of Major and Minor no.</b></h5><br>
+1. Statically Allocated<br>
+2. Dynamically Allocated<br><br>
+
+If we want to set a particular available major number to your driver, we can use Static allocation method this will allocate the
+major no if it is available. Otherwise, it won't.<br><br>
 
 
 <div class="card">
 <div class="card-body">
-<span class="badge badge-secondary"> <h6> >>> insmode ./example_lkm.ko </h6></span> // insmode utility is used to load a module to the kernel with root permission <br><br>
-<span class="badge badge-secondary"> <h6> >>> rmmod ./example_lkm.ko </h6> </span> // rmmod is used to remove the module .<br><br>
-  both recieves path to the *.ko file as a parameter.<br><br>
 
-  ** Information about modules loaded into the kernel can be found using the lsmod command or by inspecting the /proc/modules, /sys/module directories. **
+  <b>int register_chrdev_region(dev_t first , unsigned int count , char *name);</b><br><br>
+<b>  first</b>-->The beginning no of the range we want<br>
+<b>  count</b>-->The total number of the contiguous device no we are requesting.<br>
+
+
+
+if(count is too large)<br>
+    it could spill over the next major no, but it'll work as long as the number range we request is available.<br>
+
+<b>name</b>-->the device name which is associated with the number range.it'll appear in /proc/devices.
+</div>
+</div><br><br>
+the function register_chrdev_region will return 0 if the mission is successful if not it will give some negative error
+code.<br>
+
+<b>dev_t structure :</b>
+it is typedef of __kernel_dev_t which is again typedef u32 which is again a typedef of unsigned int which holds 32 bit.
+here 12 bits set aside for major no and 20 for minor no.<br><br>
+
+<div class="card">
+<div class="card-body">
+<b>MKDEV(int major, int minor)</b> //create a dev_t structure variable for the major and minor no.<br>
+<b>
+MAJOR(dev_t dev);<br>
+MINOR(dev_t dev);</b><br>
+// all these macros are defined in linux/kdev_t.h
+</div>
+</div><br>Example of Statically Allocation of major and minor numbers.<br>
+<script src="https://gist.github.com/cvam0000/fa7320cee96af022e4ed340157c0aa76.js"></script>
+<br><br>
+
+<b>Dynamically Allocating:</b><br>
+If we don't want to fix the major and minor no, we can use this method. This method will allocate the available major number
+dynamically.
+
+<br><br>
+
+
+<div class="card">
+<div class="card-body">
+  <b>int alloc_chrdev_region(dev_t *dev, unsigned int minor, unsigned int count, char *name);</b><br><br>
+
+  <b>dev</b>-->Output only parameter. On success, it holds the first number in the allocated range.<br>
+<b>  minor</b>-->first Minor number, Usually 0.<br>
+<b>  count</b>-->total requested a number of the contiguous device.<br>
+
 </div>
 </div>
 <br>
-When loading a module , module_init macro will be executed, similarly when the module is unloaded module_exit macro will execute .<br>
-A complete example of compiling and loading/unloading a kernel module
-<br>
+Example of Dynamically Allocation of major and minor numbers.<br>
+<script src="https://gist.github.com/cvam0000/ccea54ed87d212a8c55be674f67de61a.js"></script>
 
-<div class="col-12 p-0">
-	<img src="../../images/lkm.png" width="100%" height="auto">
-</div>
 
-<br>
 
-<div class="col-12 p-0">
-	<img src="../../images/lkm_dmesg.png" width="100%" height="auto">
-</div>
-  </p>
-  <button class="button ">Comming Next [LKM Debugging]</button><br>
-
+<!----stop blog here ---->
 
 <div id="graphcomment"></div>
 <script type="text/javascript">
