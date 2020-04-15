@@ -279,15 +279,12 @@ ul, ol {
 	Intro Section
 ----------------------*/
 .intro-section {
-
   height: 100vh;
-  height: 100%;
-
   background-image: url("../img/bg.jpg");
   background-repeat: no-repeat;
   background-size: cover;
   background-position: center;
-
+  overflow-y: hidden;
   position: relative; }
   .intro-section:after {
     position: absolute;
@@ -723,6 +720,7 @@ ul, ol {
   .intro-content h3 {
     font-size: 14px; } }
 
+/*# sourceMappingURL=style.css.map */
 
 
 @media (max-width: 768px) { 
