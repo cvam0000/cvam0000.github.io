@@ -1,2 +1,0 @@
-# codeNsolder
-Website for codeNsolder
