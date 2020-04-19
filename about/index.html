@@ -6,7 +6,7 @@
 
 body {
   font-family: "Montserrat", sans-serif;
-  background: linear-gradient(270deg, #ffead1, #ffb6bd, #e0b5ff);
+  
   background-size: 150% 150%;
   animation: backgroundAnimation 10s ease infinite;
   display: flex;
@@ -66,7 +66,7 @@ body {
   width: 100%;
   height: 100%;
   border-radius: 10px;
-  background-color: #ff2256;
+  
   opacity: 0.8;
   mix-blend-mode: screen;
 }
@@ -277,22 +277,43 @@ h1.second-name {
 }
 
 .button {
- 
-  border: none;
-  color: black;
-  padding: 16px 32px;
-  text-align: center;
-  text-decoration: none;
   display: inline-block;
-  font-size: 16px;
-  margin: 4px 2px;
-  transition-duration: 0.4s;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 18px;
+  padding: 20px;
+  width: 200px;
+  transition: all 0.5s;
   cursor: pointer;
+  margin: 5px;
 }
 
-.button:hover{
-  background-color: #555555;
-  color: black; 
+.button span {
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+.button:hover span {
+  padding-right: 25px;
+}
+
+.button:hover span:after {
+  opacity: 1;
+  right: 0;
 }
 
 
@@ -313,7 +334,7 @@ h1.second-name {
     </aside>
     <section class="profile-info">
       <h1 class="first-name">CVAM</h1>
-      <h1 class="second-name">Shivam Chaudhary</h1>
+      <h1 class="second-name">~/Shivam_Chaudhary</h1>
       <h2>ABOUT</h2>
       <p>
         hello hello, I'm cvam, artist and developer 🌼 a Linux and Embedded Ehthusiast happy to be here! 🌿 let's code the best we can!
@@ -337,12 +358,11 @@ h1.second-name {
     </section>
   </section><br><br>
   <section class="statistics">
-
-    <button class="button">Home</button>
-<button class="button ">Blog</button>
-<button class="button ">Contact</button>
-<button class="button ">kuch bhi</button>
-<button class="button ">DIY/Projects</button>
+    <a href="../index.html" button class="button" style="vertical-align:middle"><span>Home</span></a></button>
+    <a href="../contact.html"button class="button" style="vertical-align:middle"><span>Contact </span></a></button>
+    <a href="../ShivamChaudhary.pdf"button class="button" style="vertical-align:middle"><span>Resume </span></a></button>
+    <a href="../blog.html"button class="button" style="vertical-align:middle"><span>Blog</span></a></button>
+    <a href="../projects.html"button class="button" style="vertical-align:middle"><span>Projects/DIY</span></a></button>
 
 
 
